@@ -595,7 +595,7 @@ static void syn_init_vkeys_8974(void)
 	if (syn_properties_kobj)
 		rc = sysfs_create_group(syn_properties_kobj, &syn_properties_attr_group);
 	if (!syn_properties_kobj || rc)
-		pr_err("%s: failed to create board_properties\n", __func__);
+		//pr_err("%s: failed to create board_properties\n", __func__);
 	return;
 }
 #endif
@@ -904,7 +904,7 @@ void __init htc_8974_init_early(void)
 	struct membank* bank;
 
 	if (meminfo.nr_banks < 2) {
-		pr_err("%s: not enough membank\n", __func__);
+		//pr_err("%s: not enough membank\n", __func__);
 		return;
 	}
 	
@@ -914,7 +914,7 @@ void __init htc_8974_init_early(void)
 	if(!ret)
 		//pr_info("Hardboot page reserved at 0x%X\n", start);
 	else
-		pr_err("Failed to reserve space for hardboot page at 0x%X!\n", start);
+		//pr_err("Failed to reserve space for hardboot page at 0x%X!\n", start);
 #endif
 	
 	persistent_ram_early_init(&htc_8974_persistent_ram);
@@ -929,7 +929,7 @@ void __init htc_8974_init(void)
 	struct of_dev_auxdata *adata = htc_8974_auxdata_lookup;
 
 	if (socinfo_init() < 0)
-		pr_err("%s: socinfo_init() failed\n", __func__);
+		//pr_err("%s: socinfo_init() failed\n", __func__);
 
 	//pr_info("%s: pid=%d, pcbid=%d, socver=0x%x\n", __func__
 		, of_machine_pid(), of_machine_pcbid(), of_machine_socver());
