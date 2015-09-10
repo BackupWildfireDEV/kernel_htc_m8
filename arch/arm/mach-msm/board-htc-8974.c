@@ -207,14 +207,14 @@ static void htc_8974_config_usb_id_gpios(bool output)
 {
 	if (output) {
 		if (gpio_tlmm_config(htc_8974_usb_id_gpio_output[0], GPIO_CFG_ENABLE)) {
-			printk(KERN_ERR "[CABLE] fail to config usb id, output = %d\n",output);
+			//printk(KERN_ERR "[CABLE] fail to config usb id, output = %d\n",output);
 			return;
 		}
 		gpio_set_value(HTC_8974_USB1_HS_ID_GPIO, 1);
-		pr_info("[CABLE] %s: %d output high\n",  __func__, HTC_8974_USB1_HS_ID_GPIO);
+		//pr_info("[CABLE] %s: %d output high\n",  __func__, HTC_8974_USB1_HS_ID_GPIO);
 	} else {
 		if (gpio_tlmm_config(htc_8974_usb_id_gpio_input[0], GPIO_CFG_ENABLE)) {
-			printk(KERN_ERR "[CABLE] fail to config usb id, output = %d\n",output);
+			//printk(KERN_ERR "[CABLE] fail to config usb id, output = %d\n",output);
 			return;
 		}
 	}
@@ -227,12 +227,12 @@ static int64_t htc_8974_get_usbid_adc(void)
 	int err = 0, adc = 0;
 	err = qpnp_vadc_read(LR_MUX10_USB_ID_LV, &result);
 	if (err < 0) {
-		pr_info("[CABLE] %s: get adc fail, err %d\n", __func__, err);
+		//pr_info("[CABLE] %s: get adc fail, err %d\n", __func__, err);
 		return err;
 	}
 	adc = result.physical;
 	adc /= 1000;
-	pr_info("[CABLE] chan=%d, adc_code=%d, measurement=%lld, \
+	//pr_info("[CABLE] chan=%d, adc_code=%d, measurement=%lld, \
 			physical=%lld translate voltage %d\n", result.chan, result.adc_code,
 			result.measurement, result.physical, adc);
 	return adc;
@@ -244,11 +244,11 @@ static int64_t htc_8974_get_usbid_adc(void)
 static void htc_8974_usb_dpdn_switch(int path)
 {
 	if (mhl_usb_sw_gpio < 0) {
-		pr_info("%s: no define mhl_usb_sw_gpio\n", __func__);
+		//pr_info("%s: no define mhl_usb_sw_gpio\n", __func__);
 		return;
 	}
 
-	pr_debug("%s path:%d\n", __func__, path);
+	//pr_debug("%s path:%d\n", __func__, path);
 	switch (path) {
 	case PATH_USB:
 		gpio_set_value(mhl_usb_sw_gpio, 0);
@@ -311,19 +311,19 @@ void htc_8974_cable_detect_register(void)
 	if (np) {
 		mhl_usb_sw_gpio = of_get_named_gpio(np, "mhl_usb_sw_gpio", 0);
 		if (!gpio_is_valid(mhl_usb_sw_gpio)) {
-			pr_info("%s: No define mhl_usb_sw_gpio\n", __func__);
+			//pr_info("%s: No define mhl_usb_sw_gpio\n", __func__);
 		} else {
-			pr_info("%s: mhl_usb_sw_gpio =%d\n", __func__, mhl_usb_sw_gpio);
+			//pr_info("%s: mhl_usb_sw_gpio =%d\n", __func__, mhl_usb_sw_gpio);
 		}
 #ifdef CONFIG_FB_MSM_MDSS_HDMI_MHL_SII9234
 		{
 			int mhl_usb_reset_gpio;
 			mhl_usb_reset_gpio = of_get_named_gpio(np, "mhl_usb_reset_gpio", 0);
 			if (!gpio_is_valid(mhl_usb_reset_gpio)) {
-				pr_info("%s: No define mhl_usb_reset_gpio\n", __func__);
+				//pr_info("%s: No define mhl_usb_reset_gpio\n", __func__);
 			} else {
 				cable_detect_pdata.mhl_reset_gpio = mhl_usb_reset_gpio;
-				pr_info("%s: mhl_usb_reset_gpio =%d\n", __func__, mhl_usb_reset_gpio);
+				//pr_info("%s: mhl_usb_reset_gpio =%d\n", __func__, mhl_usb_reset_gpio);
 			}
 
 			cable_detect_pdata.mhl_disable_irq = sii9234_disableIRQ;
@@ -337,10 +337,10 @@ void htc_8974_cable_detect_register(void)
 			int mhl_usb_reset_gpio;
 			mhl_usb_reset_gpio = of_get_named_gpio(np, "mhl_usb_reset_gpio", 0);
 			if (!gpio_is_valid(mhl_usb_reset_gpio)) {
-				pr_info("%s: No define mhl_usb_reset_gpio\n", __func__);
+				//pr_info("%s: No define mhl_usb_reset_gpio\n", __func__);
 			} else {
 				cable_detect_pdata.mhl_reset_gpio = mhl_usb_reset_gpio;
-				pr_info("%s: mhl_usb_reset_gpio =%d\n", __func__, mhl_usb_reset_gpio);
+				//pr_info("%s: mhl_usb_reset_gpio =%d\n", __func__, mhl_usb_reset_gpio);
 			}
 
 			cable_detect_pdata.switch_to_d3 = si_d2_to_d3;
@@ -349,7 +349,7 @@ void htc_8974_cable_detect_register(void)
 		}
 #endif
 	} else {
-		pr_info("%s no mhl_usb_detect node\n", __func__);
+		//pr_info("%s no mhl_usb_detect node\n", __func__);
 	}
 #endif
 	platform_device_register(&cable_detect_device);
@@ -409,7 +409,7 @@ static int __maybe_unused m8wl_usb_product_id_match(int product_id, int intrshar
 			return pid_array[1];
 		pid_array += 2;
 	}
-	printk("%s(%d):product_id=%d, intrsharing=%d\n", __func__, __LINE__, product_id, intrsharing);
+	//printk("%s(%d):product_id=%d, intrsharing=%d\n", __func__, __LINE__, product_id, intrsharing);
 
 	switch (product_id) {
 		case 0x0f8c: 
@@ -590,7 +590,7 @@ static void syn_init_vkeys_8974(void)
 	int rc = 0;
 	static struct kobject *syn_properties_kobj;
 
-	pr_info("[TP] init virtual key");
+	//pr_info("[TP] init virtual key");
 	syn_properties_kobj = kobject_create_and_add("board_properties", NULL);
 	if (syn_properties_kobj)
 		rc = sysfs_create_group(syn_properties_kobj, &syn_properties_attr_group);
@@ -675,7 +675,7 @@ static struct platform_device kcal_platrom_device = {
 
 void __init htc_add_lcd_kcal_devices(void)
 {
-pr_info (" LCD_KCAL_DEBUG : %s \n", __func__);
+//pr_info (" LCD_KCAL_DEBUG : %s \n", __func__);
 platform_device_register(&kcal_platrom_device);
 };
 #endif
@@ -832,7 +832,7 @@ void __init htc_8974_add_drivers(void)
 	if (board_mfg_mode() != 6 && board_mfg_mode() != 7)
 		htc_8974_add_usb_devices();
 	else
-		pr_info("[USB] %s: Don't load USB since board_mfg_mode=%d\n", __func__, board_mfg_mode());
+		//pr_info("[USB] %s: Don't load USB since board_mfg_mode=%d\n", __func__, board_mfg_mode());
 
 	htc_8974_dsi_panel_power_register();
 #if defined(CONFIG_FB_MSM_MDSS_HDMI_MHL_SII9234) && defined(CONFIG_HTC_MHL_DETECTION)
@@ -912,7 +912,7 @@ void __init htc_8974_init_early(void)
 	start = bank->start + SZ_1M + HTC_8974_PERSISTENT_RAM_SIZE;
 	ret = memblock_remove(start, SZ_1M);
 	if(!ret)
-		pr_info("Hardboot page reserved at 0x%X\n", start);
+		//pr_info("Hardboot page reserved at 0x%X\n", start);
 	else
 		pr_err("Failed to reserve space for hardboot page at 0x%X!\n", start);
 #endif
@@ -931,7 +931,7 @@ void __init htc_8974_init(void)
 	if (socinfo_init() < 0)
 		pr_err("%s: socinfo_init() failed\n", __func__);
 
-	pr_info("%s: pid=%d, pcbid=%d, socver=0x%x\n", __func__
+	//pr_info("%s: pid=%d, pcbid=%d, socver=0x%x\n", __func__
 		, of_machine_pid(), of_machine_pcbid(), of_machine_socver());
 
 	msm_htc_8974_init_gpiomux();
