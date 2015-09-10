@@ -66,7 +66,7 @@ static inline int platform_write_i2c_block(struct i2c_adapter *i2c_bus
 
 	buffer = kmalloc(count + 1, GFP_KERNEL);
 	if (!buffer) {
-		printk("%s:%d buffer allocation failed\n",__FUNCTION__,__LINE__);
+		//printk("%s:%d buffer allocation failed\n",__FUNCTION__,__LINE__);
 		return -ENOMEM;
 	}
 
@@ -83,7 +83,7 @@ static inline int platform_write_i2c_block(struct i2c_adapter *i2c_bus
 	kfree(buffer);
 
 	if (ret != 1) {
-		printk("%s:%d I2c write failed 0x%02x:0x%02x\n"
+		//printk("%s:%d I2c write failed 0x%02x:0x%02x\n"
 				,__FUNCTION__,__LINE__, page, offset);
 		ret = -EIO;
 	} else {
@@ -282,17 +282,17 @@ int htc_m8_panel_reset(struct mdss_panel_data *pdata, int enable)
 				panel_data);
 
 	if (!gpio_is_valid(ctrl_pdata->disp_en_gpio)) {
-		pr_debug("%s:%d, reset line not configured\n",
+		//pr_debug("%s:%d, reset line not configured\n",
 			   __func__, __LINE__);
 	}
 
 	if (!gpio_is_valid(ctrl_pdata->rst_gpio)) {
-		pr_debug("%s:%d, reset line not configured\n",
+		//pr_debug("%s:%d, reset line not configured\n",
 			   __func__, __LINE__);
 		return -EINVAL;
 	}
 
-	pr_debug("%s: enable = %d\n", __func__, enable);
+	//pr_debug("%s: enable = %d\n", __func__, enable);
 
 	if (enable) {
 		if (pdata->panel_info.first_power_on == 1) {
@@ -317,10 +317,10 @@ int htc_m8_panel_reset(struct mdss_panel_data *pdata, int enable)
 		if (gpio_is_valid(ctrl_pdata->disp_en_gpio))
 			gpio_set_value((ctrl_pdata->disp_en_gpio), 1);
 		if (ctrl_pdata->ctrl_state & CTRL_STATE_PANEL_INIT) {
-			pr_debug("%s: Panel Not properly turned OFF\n",
+			//pr_debug("%s: Panel Not properly turned OFF\n",
 						__func__);
 			ctrl_pdata->ctrl_state &= ~CTRL_STATE_PANEL_INIT;
-			pr_debug("%s: Reset panel done\n", __func__);
+			//pr_debug("%s: Reset panel done\n", __func__);
 		}
 	} else {
 		gpio_set_value((ctrl_pdata->rst_gpio), 0);
@@ -499,7 +499,7 @@ static struct platform_device dsi_pwrctrl_device = {
 
 int __init htc_8974_dsi_panel_power_register(void)
 {
-	pr_info("%s#%d\n", __func__, __LINE__);
+	//pr_info("%s#%d\n", __func__, __LINE__);
 	platform_device_register(&dsi_pwrctrl_device);
 	return 0;
 }
