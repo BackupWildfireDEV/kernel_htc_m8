@@ -27,20 +27,20 @@ static int htc_8974_regulator_init(struct platform_device *pdev)
 
 	PR_DISP_INFO("%s\n", __func__);
 	if (!pdev) {
-		pr_err("%s: invalid input\n", __func__);
+		//pr_err("%s: invalid input\n", __func__);
 		return -EINVAL;
 	}
 
 	ctrl_pdata = platform_get_drvdata(pdev);
 	if (!ctrl_pdata) {
-		pr_err("%s: invalid driver data\n", __func__);
+		//pr_err("%s: invalid driver data\n", __func__);
 		return -EINVAL;
 	}
 
 	pwrdata = devm_kzalloc(&pdev->dev,
 				sizeof(struct dsi_power_data), GFP_KERNEL);
 	if (!pwrdata) {
-		pr_err("[DISP] %s: FAILED to alloc pwrdata\n", __func__);
+		//pr_err("[DISP] %s: FAILED to alloc pwrdata\n", __func__);
 		return -ENOMEM;
 	}
 
@@ -48,7 +48,7 @@ static int htc_8974_regulator_init(struct platform_device *pdev)
 
 	pwrdata->vddio = devm_regulator_get(&pdev->dev, "vddio");
 	if (IS_ERR(pwrdata->vddio)) {
-		pr_err("%s: could not get vddio reg, rc=%ld\n",
+		//pr_err("%s: could not get vddio reg, rc=%ld\n",
 			__func__, PTR_ERR(pwrdata->vddio));
 		return PTR_ERR(pwrdata->vddio);
 	}
@@ -56,14 +56,14 @@ static int htc_8974_regulator_init(struct platform_device *pdev)
 	ret = regulator_set_voltage(pwrdata->vddio, 1800000,
 	        1800000);
 	if (ret) {
-		pr_err("%s: set voltage failed on vddio vreg, rc=%d\n",
+		//pr_err("%s: set voltage failed on vddio vreg, rc=%d\n",
 			__func__, ret);
 		return ret;
 	}
 
 	pwrdata->vdda = devm_regulator_get(&pdev->dev, "vdda");
 	if (IS_ERR(pwrdata->vdda)) {
-		pr_err("%s: could not get vdda vreg, rc=%ld\n",
+		//pr_err("%s: could not get vdda vreg, rc=%ld\n",
 			__func__, PTR_ERR(pwrdata->vdda));
 		return PTR_ERR(pwrdata->vdda);
 	}
@@ -71,7 +71,7 @@ static int htc_8974_regulator_init(struct platform_device *pdev)
 	ret = regulator_set_voltage(pwrdata->vdda, 1200000,
 	        1200000);
 	if (ret) {
-	    pr_err("%s: set voltage failed on vdda vreg, rc=%d\n",
+	    //pr_err("%s: set voltage failed on vdda vreg, rc=%d\n",
 	        __func__, ret);
 	    return ret;
 	}
@@ -88,7 +88,7 @@ static int htc_8974_regulator_init(struct platform_device *pdev)
 		
 		pwrdata->vlcmio = devm_regulator_get(&pdev->dev, "vlcmio");
 		if (IS_ERR(pwrdata->vlcmio)) {
-			pr_err("%s: could not get vlcmio reg, rc=%ld\n",
+			//pr_err("%s: could not get vlcmio reg, rc=%ld\n",
 				__func__, PTR_ERR(pwrdata->vlcmio));
 			return PTR_ERR(pwrdata->vlcmio);
 		}
@@ -108,7 +108,7 @@ int htc_8974_panel_reset(struct mdss_panel_data *pdata, int enable)
 	struct mdss_dsi_ctrl_pdata *ctrl_pdata = NULL;
 
 	if (pdata == NULL) {
-		pr_err("%s: Invalid input data\n", __func__);
+		//pr_err("%s: Invalid input data\n", __func__);
 		return -EINVAL;
 	}
 
@@ -116,17 +116,17 @@ int htc_8974_panel_reset(struct mdss_panel_data *pdata, int enable)
 				panel_data);
 
 	if (!gpio_is_valid(ctrl_pdata->disp_en_gpio)) {
-		pr_debug("%s:%d, reset line not configured\n",
+		//pr_debug("%s:%d, reset line not configured\n",
 			   __func__, __LINE__);
 	}
 
 	if (!gpio_is_valid(ctrl_pdata->rst_gpio)) {
-		pr_debug("%s:%d, reset line not configured\n",
+		//pr_debug("%s:%d, reset line not configured\n",
 			   __func__, __LINE__);
 		return -EINVAL;
 	}
 
-	pr_debug("%s: enable = %d\n", __func__, enable);
+	//pr_debug("%s: enable = %d\n", __func__, enable);
 
 	if (enable) {
 		if (pdata->panel_info.first_power_on == 1) {
@@ -151,10 +151,10 @@ int htc_8974_panel_reset(struct mdss_panel_data *pdata, int enable)
 		if (gpio_is_valid(ctrl_pdata->disp_en_gpio))
 			gpio_set_value((ctrl_pdata->disp_en_gpio), 1);
 		if (ctrl_pdata->ctrl_state & CTRL_STATE_PANEL_INIT) {
-			pr_debug("%s: Panel Not properly turned OFF\n",
+			//pr_debug("%s: Panel Not properly turned OFF\n",
 						__func__);
 			ctrl_pdata->ctrl_state &= ~CTRL_STATE_PANEL_INIT;
-			pr_debug("%s: Reset panel done\n", __func__);
+			//pr_debug("%s: Reset panel done\n", __func__);
 		}
 	} else {
 		gpio_set_value((ctrl_pdata->rst_gpio), 0);
@@ -173,7 +173,7 @@ static int htc_8974_panel_power_on(struct mdss_panel_data *pdata, int enable)
 
 	PR_DISP_INFO("%s: en=%d\n", __func__, enable);
 	if (pdata == NULL) {
-		pr_err("%s: Invalid input data\n", __func__);
+		//pr_err("%s: Invalid input data\n", __func__);
 		return -EINVAL;
 	}
 
@@ -182,7 +182,7 @@ static int htc_8974_panel_power_on(struct mdss_panel_data *pdata, int enable)
 	pwrdata = ctrl_pdata->dsi_pwrctrl_data;
 
 	if (!pwrdata) {
-		pr_err("%s: pwrdata not initialized\n", __func__);
+		//pr_err("%s: pwrdata not initialized\n", __func__);
 		return -EINVAL;
 	}
 
@@ -193,7 +193,7 @@ static int htc_8974_panel_power_on(struct mdss_panel_data *pdata, int enable)
 		} else {
 			ret = regulator_enable(pwrdata->vlcmio);
 			if (ret) {
-				pr_err("%s: Failed to enable regulator.\n",
+				//pr_err("%s: Failed to enable regulator.\n",
 					__func__);
 				return ret;
 			}
@@ -207,21 +207,21 @@ static int htc_8974_panel_power_on(struct mdss_panel_data *pdata, int enable)
 
 		ret = regulator_set_optimum_mode(pwrdata->vddio, 100000);
 		if (ret < 0) {
-			pr_err("%s: vddio set opt mode failed.\n",
+			//pr_err("%s: vddio set opt mode failed.\n",
 				__func__);
 			return ret;
 		}
 
 		ret = regulator_set_optimum_mode(pwrdata->vdda, 100000);
 		if (ret < 0) {
-			pr_err("%s: vdda set opt mode failed.\n",
+			//pr_err("%s: vdda set opt mode failed.\n",
 				__func__);
 			return ret;
 		}
 
 		ret = regulator_enable(pwrdata->vddio);
 		if (ret) {
-			pr_err("%s: Failed to enable regulator.\n",
+			//pr_err("%s: Failed to enable regulator.\n",
 				__func__);
 			return ret;
 		}
@@ -230,7 +230,7 @@ static int htc_8974_panel_power_on(struct mdss_panel_data *pdata, int enable)
 
 		ret = regulator_enable(pwrdata->vdda);
 		if (ret) {
-			pr_err("%s: Failed to enable regulator.\n",
+			//pr_err("%s: Failed to enable regulator.\n",
 				__func__);
 			return ret;
 		}
@@ -243,27 +243,27 @@ static int htc_8974_panel_power_on(struct mdss_panel_data *pdata, int enable)
 
 		ret = regulator_disable(pwrdata->vdda);
 		if (ret) {
-			pr_err("%s: Failed to disable regulator.\n",
+			//pr_err("%s: Failed to disable regulator.\n",
 				__func__);
 			return ret;
 		}
 
 		ret = regulator_disable(pwrdata->vddio);
 		if (ret) {
-			pr_err("%s: Failed to disable regulator.\n",
+			//pr_err("%s: Failed to disable regulator.\n",
 				__func__);
 			return ret;
 		}
 
 		ret = regulator_set_optimum_mode(pwrdata->vddio, 100);
 		if (ret < 0) {
-			pr_err("%s: vdd_io_vreg set opt mode failed.\n",
+			//pr_err("%s: vdd_io_vreg set opt mode failed.\n",
 				__func__);
 			return ret;
 		}
 		ret = regulator_set_optimum_mode(pwrdata->vdda, 100);
 		if (ret < 0) {
-			pr_err("%s: vdda_vreg set opt mode failed.\n",
+			//pr_err("%s: vdda_vreg set opt mode failed.\n",
 				__func__);
 			return ret;
 		}
@@ -284,7 +284,7 @@ static int htc_8974_panel_power_on(struct mdss_panel_data *pdata, int enable)
 		} else {
 			ret = regulator_disable(pwrdata->vlcmio);
 			if (ret) {
-				pr_err("%s: Failed to enable regulator.\n",
+				//pr_err("%s: Failed to enable regulator.\n",
 					__func__);
 				return ret;
 			}
